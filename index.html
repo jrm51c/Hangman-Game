@@ -4,17 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>The Psychic Game</title>
+    <title>Hangman</title>
     <!-- reset styling to default values to ensure cross browser compatibility-->
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css" />
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css" />-->
     <!-- external styling -->
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
     <script src="./assets/javascript/game.js"></script>
 </head>
 <body>
+    <div id="header">
+        <h1>HANGMAN!!</h1>
+        <img src="./assets/images/h3.jpg" alt="Image of Hangman Game" width="500px">
+    </div>
     <div id="container">
-        <div id="game">
+        <div id="leftColumn">
+            <img src="./assets/images/h6.jpg" alt="Image of Hangman Game">
         </div>
+        <div id="rightColumn">
+            <p>Press any key to get started</p>
+            <br><br/>
+            <p>Wins:</p>
+            <p>Losses:</p>
+            <p>Current Word:</p>
+            <p id="word"></p>
+            <br><br/>
+            <p id="remainingGuesses">Remaining Guesses:</p>
+            <br><br/>
+            <P id="guessHistory">Letters already guessed:</P>
+        </div>
+
     </div>
   
 </body>
