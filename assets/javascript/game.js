@@ -22,10 +22,13 @@ var playerGuess;
 var guessHistory = [];
 
 // store number of remaining player guesses
-var guessesRemaining;
+var guessesRemaining = 0;
 
-// create an array to store the answer
+// create an array to store the word selected by the computer
 var answer = [];
+
+// create an array to display the word selected by the computer
+var displayAnswer = [];
 
 // track letters that have not been guessed
 var remainingLetters;
@@ -43,27 +46,54 @@ var remainingLetters;
 // This function is run whenever the user presses a key.
 document.onkeyup = function(event) {
 console.log(computerChoice);
+console.log(guessesRemaining);
 
   //Randomly selects a choice from the words array and stores value.
   //checking value of gameOver ensures computer only selects one word per game
-  //if (gameOver) {
+  if (gameOver) {
   //select a new word from the words array
   //computerChoice = words[Math.floor(Math.random() * words.length)];
-  //}
+  //display underscores in answer array to represent word length
+  
+  }
 
   //populate answer array with underscores based upon length of word selected by computer
   for (var i = 0; i < computerChoice.length; i++)  {
-      answer[i] = "_";
+      displayAnswer[i] = "_";
   }
 
-  //display underscores in answer array
-  document.querySelector("#word").innerHTML = answer.join("     ");
+  if (guessesRemaining === 0) {
+    document.querySelector("#word").innerHTML = displayAnswer.join("     ");
+  }
 
-  // Determines which key player pressed and stores value 
+
+  //split computer choice into individual characters and save in the answer array
+  answer = computerChoice.match(/\S/g);
+  //console.log(answer);
+  //answer.splice(0,1, "p");
+  //console.log(answer);
+
+  // determines which key player pressed and stores value 
   playerGuess = event.key;
 
-  // determine if player guess matches a character in the word selected by the computer
-  if (computerChoice.includes(playerGuess))  {
+
+  // search answer array to determine if player guess exists 
+  for (i = 0; i < answer.length; i++) {
+  if (answer[i] === playerGuess) {
+    displayAnswer[i] = playerGuess;
+    document.querySelector("#word").innerHTML = displayAnswer.join("     ");
+  } else {
+    console.log("fuck you");
+  }
+
+}
+
+
+
+
+
+  // iterate through the answer array to determine if user guess exists
+  /*if (computerChoice.includes(playerGuess))  {
       alert("matches");
       guessesRemaining--;
       //display number of guesses remaining
@@ -77,7 +107,7 @@ console.log(computerChoice);
         guessesRemaining--;
         //display number of guesses remaining
         document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
-    } 
+    } */
   }
 
 /*
