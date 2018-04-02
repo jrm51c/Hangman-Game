@@ -22,143 +22,130 @@ var playerGuess;
 var guessHistory = [];
 
 // store number of remaining player guesses
-var guessesRemaining = 0;
+var guessesRemaining;
 
 // create an array to store the word selected by the computer
 var answer = [];
 
-// create an array to display the word selected by the computer
+// create an array to display correct guesses to player
 var displayAnswer = [];
 
 // track letters that have not been guessed
 var remainingLetters;
 
-//select a new word from the words array
+// select a new word from the words array
  computerChoice = words[Math.floor(Math.random() * words.length)];
 
- guessesRemaining = computerChoice.length;
+ answer = computerChoice.match(/\S/g);
+
+ // player is given a finite amount of guesses based upon word length
+ guessesRemaining = computerChoice.length + 3;
 
 //=================================================================
 
 // functions
 //=================================================================
+ //populate answer array with underscores based upon length of word selected by computer
+ for (var i = 0; i < computerChoice.length; i++)  {
+  displayAnswer[i] = "_";
+}
 
-// This function is run whenever the user presses a key.
-document.onkeyup = function(event) {
 console.log(computerChoice);
+console.log(answer);
 console.log(guessesRemaining);
+console.log(displayAnswer);
+//document.querySelector("#word").innerHTML = displayAnswer.join(" ");
 
-  //Randomly selects a choice from the words array and stores value.
-  //checking value of gameOver ensures computer only selects one word per game
-  if (gameOver) {
-  //select a new word from the words array
-  //computerChoice = words[Math.floor(Math.random() * words.length)];
-  //display underscores in answer array to represent word length
-  
-  }
+// This function is run whenever the user presses a key
+document.onkeyup = function(event) {
 
-  //populate answer array with underscores based upon length of word selected by computer
-  for (var i = 0; i < computerChoice.length; i++)  {
-      displayAnswer[i] = "_";
-  }
+document.getElementById("currentWord").style.display = "block";
+document.querySelector("#word").innerHTML = displayAnswer.join(" ");
 
-  if (guessesRemaining === 0) {
-    document.querySelector("#word").innerHTML = displayAnswer.join("     ");
-  }
-
-
-  //split computer choice into individual characters and save in the answer array
-  answer = computerChoice.match(/\S/g);
-  //console.log(answer);
-  //answer.splice(0,1, "p");
-  //console.log(answer);
 
   // determines which key player pressed and stores value 
   playerGuess = event.key;
 
+  // search guess history array to determine if user has already guessed this letter
+  // prevent user from selecting non alpha characters
+  if (guessHistory.indexOf(playerGuess) === -1 && /^[a-zA-Z]+/.test(playerGuess) && guessesRemaining > 0) {
+  // add current guess to guess history
+      guessHistory.push(playerGuess);
+      //display guess history
+      document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory;
+      //decrease guesses remaining by 1
+      guessesRemaining--;
+      //display number of guesses remaining
+      document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
+      }   else  {
+          alert("invalid choice, please choose again");
+      }
 
-  // search answer array to determine if player guess exists 
-  for (i = 0; i < answer.length; i++) {
-  if (answer[i] === playerGuess) {
-    displayAnswer[i] = playerGuess;
-    document.querySelector("#word").innerHTML = displayAnswer.join("     ");
-  } else {
-    console.log("fuck you");
+
+  //document.querySelector("#guessHistory").innerHTML = "history: " + playerGuess;
+    // search answer array to determine if player guess exists 
+    for (i = 0; i < answer.length; i++) {
+      if (playerGuess === answer[i]) {
+      displayAnswer.splice([i], 1, playerGuess);
+      document.querySelector("#word").innerHTML = displayAnswer.join(" ");
+    } else {
+      console.log("test");
+      }
+    }
+
+  //compare player guess with computer guess and update the appropriate fields based upon results
+  if (guessesRemaining === 0 && displayAnswer.includes("_") === true)    {
+    //inform player they lost the game
+    youLose();
+  }
+
+  if (guessesRemaining === 0 && displayAnswer.includes("_") === false)  {
+    //inform player they won the game
+    youWin();
+  }
+
+  if (guessesRemaining > 0 && displayAnswer.includes("_") === false)  {
+      //inform player they won the game
+      youWin();
   }
 
 }
 
+    function youWin()   {
+      //inform player they won the game
+      document.querySelector("#winMessage").style.display = "block";
+      
+      //update number of wins
+      wins++;
+      
+      //display number of wins
+      document.querySelector("#wins").innerHTML = "Wins: " + wins;
 
-
-
-
-  // iterate through the answer array to determine if user guess exists
-  /*if (computerChoice.includes(playerGuess))  {
-      alert("matches");
-      guessesRemaining--;
-      //display number of guesses remaining
-      document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
-  } else {
-        // add current guess to guess history
-        guessHistory.push(playerGuess);
-        //display guess history
-        document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory + " ";
-        //decrease guesses remaining by 1
-        guessesRemaining--;
-        //display number of guesses remaining
-        document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
-    } */
+      //reset guess history array to default value (empty)
+      guessHistory.length = 0;
   }
 
-/*
-//===============================================================================
-  if (guessHistory.length === 0 && /^[a-zA-Z]+/.test(playerGuess))  {
-    // add current guess to guess history
-    guessHistory.push(playerGuess);
-    //display guess history
-    document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory + " ";
-    //decrease guesses remaining by 1
-    guessesRemaining--;
-    //display number of guesses remaining
-    document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
+  function youLose() {
+      //inform player they lost the game
+     // document.getElementsByClassName("loseMessage").style.display = "block";
+      document.querySelector("#loseMessage").style.display = "block";
 
-  } else if (guessHistory.indexOf(playerGuess) === -1 && /^[a-zA-Z]+/.test(playerGuess) && guessesRemaining > 0) {
-    // add current guess to guess history
-    guessHistory.push(playerGuess);
-    //display guess history
-    document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory + " ";
-    //decrease guesses remaining by 1
-    guessesRemaining--;
-    //display number of guesses remaining
-    document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
-  } else  {
-    alert("fuck you!!");
+      //display word selected by computer
+      document.querySelector("#word").innerHTML = answer.join(" ");
+      
+      //update number of losses
+      losses++;
+                  
+      //display number of losses
+      document.querySelector("#losses").innerHTML = "Losses: " + losses;
+      
+      //reset guesses remaining to default value
+      //reset guess history array to default value (empty)
+      guessHistory.length = 0;
+
+    
   }
-*/
-//=========================================================================================================================
 
-
-
-
-  // give player a finite amount of guesses based upon length of word selected by computer
-  //guessesRemaining = (computerChoice.length + 3);
-
-
-  //display number of guesses remaining
-  //document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses : " + guessesRemaining;
-
-
-/*
-    // determine if letter selected by player exists in the word
-    //if (currentWord.search(playerGuess)) {}
-
-    if (guessesRemaining < 0 )  {
-      //var position = currentword.indexof(playerguesxs);
-      //return position;
-      alert("pud");
-    }
-
-    //console.log(position);*/
 
 
 

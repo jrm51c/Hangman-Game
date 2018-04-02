@@ -9,20 +9,24 @@ body    {
     padding: 10px;
     text-align: center;
     vertical-align: top;
-    border: 5px dotted white;
+    border: 10px dotted white;
 }
 
 h1  {
     color: white;
 }
 
+h3{
+    color: yellow;
+}
+
 #container  {
-    background-color: lightgreen;
-    height: 600px;
+    height: 480px;
     width: 600px;
     margin: 0 auto;
-    margin-top: 100px;
-    border: 5px dotted white;
+    margin-top: 50px;
+    border: 10px dotted white;
+    border-bottom: 10px dotted white;
 
 }
 
@@ -30,7 +34,7 @@ h1  {
 #leftColumn {
     background-color: black;
     border-right: 5px dashed white;
-    height: 300px;
+    height: 450px;
     width: 275px;
     float: left;
     padding: 10px;
@@ -40,7 +44,7 @@ h1  {
 
 #rightColumn    {
     background-color: black;
-    /*height: 300px;*/
+    height: 450px;
     width: 275px;
     float: left;
     padding: 10px;
@@ -48,6 +52,28 @@ h1  {
     color: white;
 }
 
+#currentWord    {
+    display: none;
+}
+
 #word   {
     font-size: 30px;
+}
+
+#wins   {
+    color: green;
+}
+
+#losses {
+    color: red;
+}
+
+#winMessage {
+    display: none;
+    color: green;
+}
+
+#loseMessage   {
+    display: none;
+    color: red;
 }
