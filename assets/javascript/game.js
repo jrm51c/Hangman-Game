@@ -1,8 +1,5 @@
 // create variables
 //===============================================================
-// control selection of new word
-gameOver = true;
-
 // store player wins
 var wins = 0;
 
@@ -10,7 +7,7 @@ var wins = 0;
 var losses = 0;
 
 // create an array to store words 
-var words = ["apple", "bubble", "carrot", "daytime", "eclipse", "frog", "gandalf", "heart"];
+var words = ["apple", "bubble", "carrot", "daytime", "eclipse", "frog", "gandalf", "heart", "illegal", "jalapeno", "kilt","lizard"];
 
 // store word selected by computer
 var computerChoice;
@@ -33,35 +30,31 @@ var displayAnswer = [];
 // track letters that have not been guessed
 var remainingLetters;
 
-// select a new word from the words array
- computerChoice = words[Math.floor(Math.random() * words.length)];
 
- answer = computerChoice.match(/\S/g);
-
- // player is given a finite amount of guesses based upon word length
- guessesRemaining = computerChoice.length + 3;
 
 //=================================================================
 
 // functions
 //=================================================================
+
+// select a new word from the words array
+computerChoice = words[Math.floor(Math.random() * words.length)];
+
+answer = computerChoice.match(/\S/g);
+
+// player is given a finite amount of guesses based upon word length
+guessesRemaining = computerChoice.length + 3;
+
  //populate answer array with underscores based upon length of word selected by computer
  for (var i = 0; i < computerChoice.length; i++)  {
   displayAnswer[i] = "_";
 }
 
-console.log(computerChoice);
-console.log(answer);
-console.log(guessesRemaining);
-console.log(displayAnswer);
-//document.querySelector("#word").innerHTML = displayAnswer.join(" ");
-
 // This function is run whenever the user presses a key
 document.onkeyup = function(event) {
 
-document.getElementById("currentWord").style.display = "block";
-document.querySelector("#word").innerHTML = displayAnswer.join(" ");
-
+  document.getElementById("currentWord").style.display = "block";
+  document.querySelector("#word").innerHTML = displayAnswer.join(" ");
 
   // determines which key player pressed and stores value 
   playerGuess = event.key;
@@ -81,15 +74,11 @@ document.querySelector("#word").innerHTML = displayAnswer.join(" ");
           alert("invalid choice, please choose again");
       }
 
-
-  //document.querySelector("#guessHistory").innerHTML = "history: " + playerGuess;
     // search answer array to determine if player guess exists 
     for (i = 0; i < answer.length; i++) {
       if (playerGuess === answer[i]) {
       displayAnswer.splice([i], 1, playerGuess);
       document.querySelector("#word").innerHTML = displayAnswer.join(" ");
-    } else {
-      console.log("test");
       }
     }
 
@@ -111,6 +100,7 @@ document.querySelector("#word").innerHTML = displayAnswer.join(" ");
 
 }
 
+
     function youWin()   {
       //inform player they won the game
       document.querySelector("#winMessage").style.display = "block";
@@ -123,11 +113,22 @@ document.querySelector("#word").innerHTML = displayAnswer.join(" ");
 
       //reset guess history array to default value (empty)
       guessHistory.length = 0;
+
+      //reset remaining guesses to default value 
+      guessesRemaining = 0;
+
+      //display guess history
+      document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory;
+
+      //display number of guesses remaining
+      document.querySelector("#remainingGuesses").innerHTML = "Remaining Guesses: " + guessesRemaining;
+
+      //present restart button
+      document.querySelector("#restart").style.display = "block";
   }
 
   function youLose() {
       //inform player they lost the game
-     // document.getElementsByClassName("loseMessage").style.display = "block";
       document.querySelector("#loseMessage").style.display = "block";
 
       //display word selected by computer
@@ -139,12 +140,24 @@ document.querySelector("#word").innerHTML = displayAnswer.join(" ");
       //display number of losses
       document.querySelector("#losses").innerHTML = "Losses: " + losses;
       
-      //reset guesses remaining to default value
       //reset guess history array to default value (empty)
-      guessHistory.length = 0;
+      //guessHistory.length = 0;
 
-    
+      //display guess history
+      //document.querySelector("#guessHistory").innerHTML = "Guess History: " + guessHistory;
+
+      //present restart button
+      document.querySelector("#restart").style.display = "block";
+
   }
+
+    function reloadPage() {
+      location.reload();
+      //display number of losses
+      document.querySelector("#losses").innerHTML = "Losses: " + losses;
+      //display number of wins
+      document.querySelector("#wins").innerHTML = "Wins: " + wins;
+    }
 
 
 
