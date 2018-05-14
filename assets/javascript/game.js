@@ -30,13 +30,12 @@ var displayAnswer = [];
 // track letters that have not been guessed
 var remainingLetters;
 
-
+isPlaying = false;
 
 //=================================================================
 
 // functions
 //=================================================================
-
 // select a new word from the words array
 computerChoice = words[Math.floor(Math.random() * words.length)];
 
